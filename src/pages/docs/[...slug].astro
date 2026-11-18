@@ -1,0 +1,44 @@
+---
+import { getCollection, render } from "astro:content";
+import DocsToc from "../../components/docs/DocsToc.astro";
+import { sectionLabels } from "../../data/docs";
+import DocsLayout from "../../layouts/DocsLayout.astro";
+
+export async function getStaticPaths() {
+  const docs = (await getCollection("docs", ({ data }) => data.draft !== true)).sort((a, b) => {
+    if (a.data.section === b.data.section) return a.data.order - b.data.order;
+    return a.data.section.localeCompare(b.data.section);
+  });
+
+  return docs.map((entry) => {
+    const same = docs.filter((item) => item.data.section === entry.data.section);
+    const index = same.findIndex((item) => item.id === entry.id);
+    const prev = index > 0 ? same[index - 1] : undefined;
+    const next = index < same.length - 1 ? same[index + 1] : undefined;
+    return {
+      params: { slug: entry.id },
+      props: { entry, prev, next },
+    };
+  });
+}
+
+const { entry, prev, next } = Astro.props;
+const { Content, headings } = await render(entry);
+---
+
+<DocsLayout
+  title={`${entry.data.title} — Spirit Panel Docs`}
+  description={entry.data.description}
+  section={entry.data.section}
+  headings={headings}
+  prev={prev ? { href: `/docs/${prev.id}`, title: prev.data.title } : null}
+  next={next ? { href: `/docs/${next.id}`, title: next.data.title } : null}
+>
+  <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-cyan">{sectionLabels[entry.data.section]}</p>
+  <h1 class="mt-3 font-display text-3xl font-semibold tracking-[-0.04em] text-balance sm:text-4xl">{entry.data.title}</h1>
+  <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted">{entry.data.description}</p>
+  <DocsToc headings={headings} place="inline" />
+  <div class="docs-prose">
+    <Content />
+  </div>
+</DocsLayout>

@@ -1,0 +1,138 @@
+---
+import Icon from "../../components/Icon.astro";
+import DocsToc from "../../components/docs/DocsToc.astro";
+import { wingsNav, wingsSectionUrl } from "../../data/docs";
+import DocsLayout from "../../layouts/DocsLayout.astro";
+
+const headings = [
+  { depth: 2, slug: "sections", text: "Sections" },
+  { depth: 2, slug: "getting-started", text: "Getting started" },
+  { depth: 2, slug: "popular", text: "Popular guides" },
+];
+
+const sections = [
+  {
+    href: "/docs/start/introduction",
+    title: "Start",
+    body: "What Spirit Panel is, how it sits next to FeatherWings, and what the server needs.",
+  },
+  {
+    href: "/docs/panel/install",
+    title: "Panel",
+    body: "Install the panel, confirm it is healthy, point it at FeatherWings, and update from the checkout.",
+  },
+  {
+    href: wingsSectionUrl,
+    title: "Wings",
+    external: true,
+    body: "Daemon install and config.yml live in the FeatherPanel docs. Spirit Panel does not run games.",
+  },
+  {
+    href: "/docs/help/troubleshooting",
+    title: "Help",
+    body: "Installer, certificate, 502s, Wings auth, the console, SFTP, and schedules.",
+  },
+];
+
+const steps = [
+  { href: "/docs/start/requirements", title: "Check the server", body: "Ubuntu or Debian, a domain, and Docker only where games run." },
+  { href: "/docs/panel/install", title: "Run the installer", body: "Save spirit.sh, then run it as root. Do not pipe curl into bash." },
+  { href: "/docs/panel/connect-wings", title: "Connect FeatherWings", body: "Same-box daemon, remote nodes, or both. API_URL has to match." },
+  { href: "/docs/panel/after-install", title: "Confirm it came up", body: "Health checks, eggs, and the ports that stay private." },
+];
+
+const popular = [
+  { href: "/docs/start/requirements", title: "Requirements", body: "OS, domain, and what the installer adds." },
+  { href: "/docs/panel/install", title: "Install the panel", body: "The two commands and the installer menu." },
+  { href: "/docs/panel/connect-wings", title: "Connect FeatherWings", body: "Same box, remote nodes, and API_URL." },
+  { href: "/docs/panel/after-install", title: "After install", body: "Health, eggs, and the first admin steps." },
+  { href: "/docs/help/troubleshooting", title: "Troubleshooting", body: "502, migrations, Wings auth, console, and SFTP." },
+  { href: wingsNav[0].href, title: "FeatherWings installation", body: "Daemon setup on the machines that host games.", external: true },
+];
+---
+
+<DocsLayout
+  title="Docs — Spirit Panel"
+  description="Install Spirit Panel, connect FeatherWings, and keep the panel updated on your own server."
+  headings={headings}
+>
+  <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-cyan">Docs</p>
+  <h1 class="mt-3 max-w-3xl font-display text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+    Spirit Panel documentation
+  </h1>
+  <p class="mt-4 max-w-2xl text-base leading-relaxed text-muted">
+    The panel is the control plane. Games stay in Docker on FeatherWings. These guides cover install and how the two pieces connect. Wings itself is documented on FeatherPanel.
+  </p>
+  <button type="button" class="btn btn-secondary mt-6" data-docs-search-open>
+    <Icon name="docs" />
+    Search guides
+    <kbd class="hidden rounded border border-white/15 px-1.5 py-px font-mono text-[10px] text-faint sm:inline">Ctrl K</kbd>
+  </button>
+  <DocsToc headings={headings} place="inline" />
+
+  <section id="sections" class="mt-12 scroll-mt-32">
+    <h2 class="font-display text-xl font-semibold tracking-tight">Sections</h2>
+    <div class="mt-4 overflow-hidden rounded-[14px] border border-white/10">
+      <div class="grid sm:grid-cols-2">
+        {
+          sections.map((item) => (
+            <a
+              href={item.href}
+              {...(item.external ? { target: "_blank", rel: "noreferrer" } : {})}
+              class="group border-b border-white/10 p-5 transition-colors last:border-b-0 hover:bg-white/[0.03] sm:[&:nth-child(odd)]:border-r sm:[&:nth-last-child(-n+2)]:border-b-0"
+            >
+              <span class="flex items-center justify-between gap-3">
+                <span class="font-display text-lg font-semibold tracking-tight group-hover:text-cyan">{item.title}</span>
+                {item.external ? <Icon name="external" class="size-4 text-faint" /> : <Icon name="arrow" class="size-4 text-cyan opacity-0 transition-opacity group-hover:opacity-100" />}
+              </span>
+              <span class="mt-2 block text-sm leading-relaxed text-muted">{item.body}</span>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section id="getting-started" class="mt-12 scroll-mt-32">
+    <h2 class="font-display text-xl font-semibold tracking-tight">Getting started</h2>
+    <p class="mt-2 max-w-2xl text-sm leading-relaxed text-muted">From a fresh Linux server to a panel that answers, then a node FeatherWings can join.</p>
+    <ol class="mt-4 divide-y divide-white/10 border-y border-white/10">
+      {
+        steps.map((step, index) => (
+          <li>
+            <a href={step.href} class="grid grid-cols-[auto_minmax(0,1fr)] gap-4 py-4 transition-colors hover:text-cyan">
+              <span class="font-display text-sm text-cyan">{String(index + 1).padStart(2, "0")}</span>
+              <span>
+                <span class="block text-sm text-ink">{step.title}</span>
+                <span class="mt-1 block text-sm leading-relaxed text-muted">{step.body}</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section id="popular" class="mt-12 scroll-mt-32">
+    <h2 class="font-display text-xl font-semibold tracking-tight">Popular guides</h2>
+    <ul class="mt-4 divide-y divide-white/10 border-y border-white/10">
+      {
+        popular.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              {...(item.external ? { target: "_blank", rel: "noreferrer" } : {})}
+              class="flex items-start justify-between gap-4 py-4 transition-colors hover:text-cyan"
+            >
+              <span>
+                <span class="block text-sm text-ink">{item.title}</span>
+                <span class="mt-1 block text-sm leading-relaxed text-muted">{item.body}</span>
+              </span>
+              {item.external ? <Icon name="external" class="mt-0.5 size-4 shrink-0 text-faint" /> : <Icon name="arrow" class="mt-0.5 size-4 shrink-0 text-cyan" />}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</DocsLayout>

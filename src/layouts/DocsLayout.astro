@@ -1,0 +1,208 @@
+---
+import { getCollection } from "astro:content";
+import DocsPager from "../components/docs/DocsPager.astro";
+import DocsSearch from "../components/docs/DocsSearch.astro";
+import DocsSidebar from "../components/docs/DocsSidebar.astro";
+import DocsToc from "../components/docs/DocsToc.astro";
+import Icon from "../components/Icon.astro";
+import { docTabs, sectionLabels, wingsNav } from "../data/docs";
+import Base from "./Base.astro";
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface PageLink {
+  href: string;
+  title: string;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  section?: "start" | "panel" | "help";
+  headings?: Heading[];
+  prev?: PageLink | null;
+  next?: PageLink | null;
+}
+
+const { title, description, section, headings = [], prev = null, next = null } = Astro.props;
+
+const sectionOrder = { start: 0, panel: 1, help: 2 } as const;
+
+const entries = (await getCollection("docs", ({ data }) => data.draft !== true)).sort((a, b) => {
+  const section = sectionOrder[a.data.section] - sectionOrder[b.data.section];
+  if (section !== 0) return section;
+  return a.data.order - b.data.order;
+});
+
+const groups = [
+  {
+    id: "start",
+    label: "Start",
+    links: entries
+      .filter((entry) => entry.data.section === "start")
+      .map((entry) => ({ title: entry.data.title, href: `/docs/${entry.id}` })),
+  },
+  {
+    id: "panel",
+    label: "Panel",
+    links: entries
+      .filter((entry) => entry.data.section === "panel")
+      .map((entry) => ({ title: entry.data.title, href: `/docs/${entry.id}` })),
+  },
+  {
+    id: "wings",
+    label: "Wings",
+    links: wingsNav.map((link) => ({
+      title: link.title,
+      href: link.href,
+      external: true,
+    })),
+  },
+  {
+    id: "help",
+    label: "Help",
+    links: entries
+      .filter((entry) => entry.data.section === "help")
+      .map((entry) => ({ title: entry.data.title, href: `/docs/${entry.id}` })),
+  },
+];
+
+const tabs = docTabs.map((tab) => {
+  if ("external" in tab && tab.external) return tab;
+  const first = groups.find((group) => group.id === tab.id)?.links[0];
+  return { ...tab, href: first?.href ?? tab.href };
+});
+
+const searchItems = [
+  ...entries.map((entry) => ({
+    title: entry.data.title,
+    description: entry.data.description,
+    href: `/docs/${entry.id}`,
+    section: sectionLabels[entry.data.section],
+  })),
+  ...wingsNav.map((link) => ({
+    title: link.title,
+    description: link.description,
+    href: link.href,
+    section: "Wings",
+    external: true,
+  })),
+];
+
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+---
+
+<Base title={title} description={description}>
+  <div class="docs-tabs sticky top-[4.25rem] z-30 border-b border-white/10 bg-[#07090e]/90 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-[88rem] items-center gap-1 px-3">
+      <div class="flex min-w-0 flex-1 gap-1 overflow-x-auto py-2">
+        {
+          tabs.map((tab) => {
+            const external = "external" in tab && tab.external;
+            const current = section === tab.id;
+            return (
+              <a
+                href={tab.href}
+                aria-current={current ? "page" : undefined}
+                {...(external ? { target: "_blank", rel: "noreferrer" } : {})}
+                class:list={[
+                  "inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-sm transition-colors",
+                  current ? "bg-white/[0.06] text-ink" : "text-muted hover:bg-white/[0.04] hover:text-ink",
+                ]}
+              >
+                {tab.label}
+                {external && <Icon name="external" class="size-3.5 text-faint" />}
+              </a>
+            );
+          })
+        }
+      </div>
+      <button type="button" class="btn btn-ghost btn-sm my-2 shrink-0" data-docs-search-open>
+        Search
+        <kbd class="hidden rounded border border-white/15 px-1 py-px font-mono text-[10px] text-faint sm:inline">Ctrl K</kbd>
+      </button>
+    </div>
+  </div>
+
+  <div class="mx-auto grid max-w-[88rem] lg:grid-cols-[16.5rem_minmax(0,1fr)] xl:grid-cols-[16.5rem_minmax(0,1fr)_14rem]">
+    <div class="px-5 pt-6 lg:hidden">
+      <button
+        type="button"
+        class="btn btn-ghost btn-sm"
+        data-docs-nav-toggle
+        aria-expanded="false"
+        aria-controls="docs-sidebar"
+      >
+        <Icon name="menu" />
+        Pages
+      </button>
+    </div>
+    <aside
+      id="docs-sidebar"
+      data-open="false"
+      data-docs-nav
+      class="hidden border-b border-white/10 data-[open=true]:block lg:sticky lg:top-[7.35rem] lg:block lg:max-h-[calc(100vh-7.35rem)] lg:overflow-y-auto lg:border-b-0 lg:border-r"
+    >
+      <DocsSidebar groups={groups} />
+    </aside>
+
+    <div class="min-w-0 px-5 py-8 lg:px-10 lg:py-10">
+      <slot />
+      <DocsPager prev={prev} next={next} />
+    </div>
+
+    {
+      toc.length > 0 && (
+        <aside class="hidden xl:sticky xl:top-[7.35rem] xl:block xl:max-h-[calc(100vh-7.35rem)] xl:overflow-y-auto">
+          <DocsToc headings={toc} />
+        </aside>
+      )
+    }
+  </div>
+  <DocsSearch items={searchItems} />
+</Base>
+
+<script>
+  document.querySelectorAll("[data-docs-nav-toggle]").forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      const nav = document.querySelector("[data-docs-nav]");
+      if (!(toggle instanceof HTMLButtonElement) || !(nav instanceof HTMLElement)) return;
+      const open = nav.getAttribute("data-open") !== "true";
+      nav.setAttribute("data-open", String(open));
+      toggle.setAttribute("aria-expanded", String(open));
+    });
+  });
+
+  document.querySelectorAll(".docs-prose pre").forEach((pre) => {
+    if (!(pre instanceof HTMLElement) || pre.closest(".docs-code")) return;
+    const wrap = document.createElement("div");
+    wrap.className = "docs-code";
+    pre.parentNode?.insertBefore(wrap, pre);
+    const bar = document.createElement("div");
+    bar.className = "docs-code-bar";
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "btn btn-ghost btn-sm";
+    const label = document.createElement("span");
+    label.textContent = "Copy";
+    button.append(label);
+    button.addEventListener("click", async () => {
+      const text = pre.innerText.replace(/\n$/, "");
+      try {
+        await navigator.clipboard.writeText(text);
+        label.textContent = "Copied";
+      } catch {
+        label.textContent = "Select the block";
+      }
+      window.setTimeout(() => {
+        label.textContent = "Copy";
+      }, 1600);
+    });
+    bar.append(button);
+    wrap.append(bar, pre);
+  });
+</script>

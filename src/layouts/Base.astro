@@ -1,0 +1,140 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { githubUrl, siteName } from "../data/site";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const { title, description, image = "/banner.png" } = Astro.props;
+const pathname = Astro.url.pathname.endsWith("/") ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const canonical = new URL(pathname, Astro.site);
+const imageUrl = new URL(image, Astro.site);
+const isHome = pathname === "/";
+const isDocs = pathname.startsWith("/docs/");
+
+const sectionLabels: Record<string, string> = {
+  features: "Features",
+  "get-started": "Get started",
+  docs: "Docs",
+  start: "Start",
+  panel: "Panel",
+  help: "Help",
+};
+
+const segments = pathname.split("/").filter(Boolean);
+const crumbs = segments.map((segment, index) => {
+  const href = `/${segments.slice(0, index + 1).join("/")}/`;
+  const isLast = index === segments.length - 1;
+  return {
+    name: isLast ? title.split(" — ")[0] : (sectionLabels[segment] ?? segment),
+    href,
+  };
+});
+
+const graph: Record<string, unknown>[] = [];
+
+if (isHome) {
+  graph.push(
+    {
+      "@type": "Organization",
+      name: siteName,
+      url: canonical.origin + "/",
+      logo: new URL("/logo.png", Astro.site).href,
+      sameAs: [githubUrl],
+    },
+    {
+      "@type": "WebSite",
+      name: siteName,
+      url: canonical.origin + "/",
+      description,
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: siteName,
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Linux",
+      url: canonical.origin + "/",
+      description,
+      license: "https://www.gnu.org/licenses/agpl-3.0.html",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "GBP",
+      },
+    },
+  );
+}
+
+if (crumbs.length > 0) {
+  graph.push({
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: new URL("/", Astro.site).href },
+      ...crumbs.map((crumb, index) => ({
+        "@type": "ListItem",
+        position: index + 2,
+        name: crumb.name,
+        item: new URL(crumb.href, Astro.site).href,
+      })),
+    ],
+  });
+}
+
+const jsonLd = JSON.stringify({
+  "@context": "https://schema.org",
+  "@graph": graph,
+}).replaceAll("<", "\\u003c");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#07090e" />
+    <link rel="canonical" href={canonical.href} />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical.href} />
+    <meta property="og:type" content={isDocs ? "article" : "website"} />
+    <meta property="og:image" content={imageUrl.href} />
+    <meta property="og:image:alt" content="Spirit Panel — Manage, Host, Grow" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl.href} />
+    <meta name="twitter:image:alt" content="Spirit Panel — Manage, Host, Grow" />
+    {graph.length > 0 && <script type="application/ld+json" set:html={jsonLd} />}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Sora:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-canvas text-ink antialiased">
+    <a
+      href="#content"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-surface focus:px-4 focus:py-2"
+    >
+      Skip to content
+    </a>
+    <Header />
+    <main id="content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

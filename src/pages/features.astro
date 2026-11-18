@@ -1,0 +1,258 @@
+---
+import Base from "../layouts/Base.astro";
+import Icon from "../components/Icon.astro";
+
+const groups = [
+  {
+    id: "admin",
+    title: "Admin",
+    lede: "Fleet, people, templates, and the settings that brand the panel.",
+    items: [
+      {
+        title: "Fleet management",
+        body: "Locations, nodes, allocations, capacity meters, live health, diagnostics, and activity.",
+      },
+      {
+        title: "Servers",
+        body: "Provision from nests and eggs, then suspend, reinstall, set network and allocations, edit startup, and live-manage.",
+      },
+      {
+        title: "Users",
+        body: "Roles, suspensions, SSH keys, API keys, and per-user server access.",
+      },
+      {
+        title: "Nests and eggs",
+        body: "Group Pterodactyl egg JSON into nests, then edit variables, images, and install scripts.",
+      },
+      {
+        title: "Domains",
+        body: "Panel domain tooling for custom hostnames.",
+      },
+      {
+        title: "Tickets",
+        body: "Staff inbox with priorities and Discord webhook support.",
+      },
+      {
+        title: "Announce",
+        body: "Site-wide announcements for the client area.",
+      },
+      {
+        title: "Activity",
+        body: "Audit-style admin activity views.",
+      },
+      {
+        title: "Settings and branding",
+        body: "Branding Studio with a live preview, shell layout, atmosphere scenes, SMTP, and security settings.",
+      },
+      {
+        title: "Plugins",
+        body: "FiveM Marketplace, Minecraft plugins from Modrinth, and Database Manager.",
+      },
+      {
+        title: "Resource limits",
+        body: "CPU, RAM, disk, IO, and swap. Set a limit to 0 for unlimited.",
+      },
+    ],
+  },
+  {
+    id: "client",
+    title: "Client",
+    lede: "What each server owner gets after a server is provisioned.",
+    items: [
+      {
+        title: "Live console",
+        body: "Tab completion from FeatherWings suggestions.",
+      },
+      {
+        title: "Files",
+        body: "File manager and a built-in editor.",
+      },
+      {
+        title: "Startup",
+        body: "Startup configuration and environment variables.",
+      },
+      {
+        title: "Power",
+        body: "Start, stop, restart, and kill.",
+      },
+      {
+        title: "Backups and databases",
+        body: "Backups, restore, databases, and schedules.",
+      },
+      {
+        title: "Subusers",
+        body: "Fine-grained permissions for people who share a server.",
+      },
+      {
+        title: "SFTP",
+        body: "SFTP access and server settings.",
+      },
+      {
+        title: "Tickets",
+        body: "Support tickets from the client area.",
+      },
+      {
+        title: "Installable PWA",
+        body: "Desktop, Android, and iOS, with a branding-aware manifest.",
+      },
+    ],
+  },
+  {
+    id: "platform",
+    title: "Platform",
+    lede: "How the panel talks to FeatherWings, and how you automate it.",
+    items: [
+      {
+        title: "FeatherWings API",
+        body: "A Pterodactyl-compatible remote API for the Wings daemon.",
+      },
+      {
+        title: "Application API",
+        body: "Scoped keys for automation.",
+      },
+      {
+        title: "Sessions",
+        body: "HttpOnly session auth with optional 2FA.",
+      },
+      {
+        title: "Production checks",
+        body: "Environment validation and safety checks before a production boot.",
+      },
+      {
+        title: "Reconnect",
+        body: "Crash recovery and reconnect options for FeatherWings 1.4.3 and newer.",
+      },
+      {
+        title: "Where it runs",
+        body: "Same box or separate nodes. One panel can drive a local daemon and remote nodes together. The panel itself never runs the game.",
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Features — Spirit Panel"
+  description="Admin fleet tools, the client console and files, and a FeatherWings-compatible API. What ships in Spirit Panel."
+>
+  <section class="relative overflow-hidden border-b border-line">
+    <div
+      class="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(148,163,184,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.06)_1px,transparent_1px)] bg-[size:4.5rem_4.5rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,black_10%,transparent_68%)]"
+      aria-hidden="true"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute inset-x-0 -top-28 h-[28rem] bg-[radial-gradient(ellipse_at_top,rgba(99,102,241,0.26),transparent_60%)]"
+      aria-hidden="true"
+    >
+    </div>
+    <div class="relative mx-auto max-w-6xl px-5 pb-12 pt-14 lg:pb-16 lg:pt-20">
+      <p class="inline-flex items-center gap-2 rounded-full border border-cyan/20 bg-[#0c1018]/80 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.18em] text-cyan">
+        <span class="size-1.5 rounded-full bg-cyan shadow-[0_0_8px_#22d3ee]" aria-hidden="true"></span>
+        Features
+      </p>
+      <h1 class="mt-5 max-w-4xl font-display text-[2.45rem] font-semibold leading-[0.96] tracking-[-0.045em] sm:text-6xl lg:text-[4.25rem]">
+        Users, nodes, and servers. Games stay on <span class="text-cyan [text-shadow:0_0_28px_rgba(34,211,238,0.28)]">FeatherWings.</span>
+      </h1>
+      <div class="mt-7 flex flex-col gap-5 sm:mt-8 lg:flex-row lg:items-end lg:justify-between">
+        <p class="max-w-xl text-[15px] leading-relaxed text-muted sm:text-base">
+          Spirit Panel is the control plane. FeatherWings is the daemon that runs each game server in Docker, on the panel host or on another machine.
+        </p>
+        <a href="/get-started" class="btn btn-primary">
+          Install Spirit Panel
+          <Icon name="arrow" />
+        </a>
+      </div>
+      <div class="mt-10 overflow-hidden rounded-[14px] border border-white/10 bg-[#07090e]">
+        <div class="grid sm:grid-cols-3 sm:divide-x sm:divide-white/10">
+          {
+            groups.map((group, index) => (
+              <a
+                href={`#${group.id}`}
+                class="group border-b border-white/10 px-5 py-5 transition-colors last:border-b-0 hover:bg-white/[0.03] sm:border-b-0 sm:px-6 lg:px-7"
+              >
+                <div class="flex items-center justify-between gap-3">
+                  <p class="font-display text-[11px] tabular-nums text-faint">{String(index + 1).padStart(2, "0")}</p>
+                  <span class="text-cyan opacity-0 transition-opacity group-hover:opacity-100" aria-hidden="true">↓</span>
+                </div>
+                <p class="mt-3 font-display text-lg font-semibold tracking-tight group-hover:text-cyan">{group.title}</p>
+                <p class="mt-2 text-sm leading-relaxed text-muted">{group.lede}</p>
+              </a>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {
+    groups.map((group, groupIndex) => (
+      <section
+        id={group.id}
+        class:list={[
+          "scroll-mt-24 border-b border-line",
+          groupIndex % 2 === 0 ? "bg-[#090c12]" : "bg-canvas",
+        ]}
+      >
+        <div class="mx-auto max-w-6xl px-5 py-14 lg:py-16">
+          <div class="rounded-[14px] bg-[linear-gradient(180deg,rgba(255,255,255,0.14),rgba(34,211,238,0.22)_12%,rgba(255,255,255,0.04))] p-px">
+            <div class="overflow-hidden rounded-[13px] bg-[#07090e]">
+              <div class="border-b border-white/10 px-6 py-7 sm:px-8 lg:flex lg:items-end lg:justify-between lg:gap-10 lg:px-10 lg:py-8">
+                <div class="max-w-2xl">
+                  <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-cyan">
+                    {String(groupIndex + 1).padStart(2, "0")} · {group.title}
+                  </p>
+                  <h2 class="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">{group.title}</h2>
+                  <p class="mt-3 text-base leading-relaxed text-muted">{group.lede}</p>
+                </div>
+                <p class="mt-5 font-mono text-[12px] text-faint lg:mt-0">
+                  {String(group.items.length).padStart(2, "0")} capabilities
+                </p>
+              </div>
+              <ul class="grid sm:grid-cols-2">
+                {group.items.map((item, itemIndex) => {
+                  const isLastOdd = itemIndex === group.items.length - 1 && group.items.length % 2 === 1;
+                  return (
+                  <li
+                    class:list={[
+                      "border-white/10 px-6 py-5 sm:px-8 lg:px-10",
+                      itemIndex > 0 && "border-t",
+                      "sm:border-t-0 sm:[&:nth-child(n+3)]:border-t",
+                      !isLastOdd && "sm:odd:border-r",
+                      isLastOdd && "sm:col-span-2",
+                    ]}
+                  >
+                    <div class="flex gap-4">
+                      <span class="pt-0.5 font-display text-[11px] tabular-nums text-faint" aria-hidden="true">
+                        {String(itemIndex + 1).padStart(2, "0")}
+                      </span>
+                      <div class="min-w-0">
+                        <h3 class="font-display text-base font-semibold tracking-tight">{item.title}</h3>
+                        <p class="mt-1.5 text-sm leading-relaxed text-muted">{item.body}</p>
+                      </div>
+                    </div>
+                  </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="border-b border-line">
+    <div class="mx-auto max-w-6xl px-5 py-12">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <p class="max-w-md text-sm leading-relaxed text-muted">
+          Ready to run it on your own server.
+        </p>
+        <a href="/get-started" class="btn btn-primary">
+          Install Spirit Panel
+          <Icon name="arrow" />
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>

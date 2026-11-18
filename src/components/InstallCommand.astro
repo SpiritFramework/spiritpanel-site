@@ -1,0 +1,67 @@
+---
+import Icon from "./Icon.astro";
+import { installCommand } from "../data/site";
+
+interface Props {
+  id?: string;
+  embedded?: boolean;
+}
+
+const { id = "install-command", embedded = false } = Astro.props;
+const lines = installCommand.split("\n").filter(Boolean);
+const slashBreaks = (line: string) => line.replaceAll("/", "/<wbr>");
+---
+
+<div class:list={["min-w-0 max-w-full", embedded ? "" : "overflow-hidden rounded-2xl border border-white/10 bg-[#07090e]"]}>
+  <div class="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-2.5">
+    <p class="font-mono text-xs text-faint">spirit.sh</p>
+    <button
+      type="button"
+      class="btn btn-ghost btn-sm"
+      data-copy={id}
+    >
+      <Icon name="copy" />
+      <span data-copy-label>Copy</span>
+    </button>
+  </div>
+  <div class="space-y-3 px-4 py-4 font-mono text-[13px] leading-6">
+    {
+      lines.map((line) => (
+        <p class="flex gap-3 text-ink">
+          <span class="select-none text-cyan" aria-hidden="true">$</span>
+          <span class="min-w-0" set:html={slashBreaks(line)} />
+        </p>
+      ))
+    }
+  </div>
+  <pre id={id} class="sr-only">{installCommand}</pre>
+</div>
+
+<script>
+  document.querySelectorAll("[data-copy]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      if (!(button instanceof HTMLButtonElement)) return;
+      const targetId = button.getAttribute("data-copy");
+      const node = targetId ? document.getElementById(targetId) : null;
+      if (!node) return;
+      const label = button.querySelector("[data-copy-label]");
+      if (!(label instanceof HTMLElement)) return;
+      const text = (node.textContent ?? "").replace(/\s+$/, "");
+      const previous = label.textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        label.textContent = "Copied";
+      } catch {
+        const range = document.createRange();
+        range.selectNodeContents(node);
+        const selection = getSelection();
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+        label.textContent = "Selected";
+      }
+      window.setTimeout(() => {
+        label.textContent = previous;
+      }, 1600);
+    });
+  });
+</script>

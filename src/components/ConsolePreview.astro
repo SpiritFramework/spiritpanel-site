@@ -1,0 +1,297 @@
+---
+const icon = {
+  terminal:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 5.5 6 8 3 10.5M8 11.5h5"/></svg>',
+  chart:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 13V8M8 13V4M13 13V6"/></svg>',
+  activity:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 8h2.5l1.5-3 2 6 1.5-3H14"/></svg>',
+  files:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 3.5h4l1.5 1.5H13V13H3z"/></svg>',
+  backups:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 6h10v7H3zM5 6V4.5h6V6"/></svg>',
+  db:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><ellipse cx="8" cy="4" rx="4.5" ry="1.7"/><path d="M3.5 4v8c0 1 2 1.7 4.5 1.7s4.5-.7 4.5-1.7V4"/></svg>',
+  schedule:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="5"/><path d="M8 5.5V8l2 1.5"/></svg>',
+  store:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 6.5 4 3h8l1 3.5M3.5 6.5h9V13h-9z"/></svg>',
+  network:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="4" cy="8" r="1.4"/><circle cx="12" cy="4.5" r="1.4"/><circle cx="12" cy="11.5" r="1.4"/><path d="M5.4 8H8m0 0 2.6-2.8M8 8l2.6 2.8"/></svg>',
+  startup:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="2"/><path d="M8 2.5v1.5M8 12v1.5M2.5 8H4M12 8h1.5M4.2 4.2l1 1M10.8 10.8l1 1M11.8 4.2l-1 1M5.2 10.8l-1 1"/></svg>',
+  settings:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="1.6"/><path d="M8 2.8v1.4M8 11.8v1.4M2.8 8h1.4M11.8 8h1.4"/></svg>',
+  users:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="6" cy="5.5" r="1.7"/><path d="M3 12.2c.4-1.6 1.6-2.4 3-2.4s2.6.8 3 2.4M10.2 5.2a1.5 1.5 0 0 1 0 2.6M11 9.9c.8.3 1.5.9 1.8 1.8"/></svg>',
+  play: '<svg class="h-full w-full" viewBox="0 0 16 16" fill="currentColor"><path d="M5.5 3.8v8.4L12.2 8z"/></svg>',
+  restart:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12.5 6A4.5 4.5 0 1 0 12 10"/><path d="M12.5 3.2V6H9.7"/></svg>',
+  stop: '<svg class="h-full w-full" viewBox="0 0 16 16" fill="currentColor"><rect x="4.5" y="4.5" width="7" height="7" rx="1"/></svg>',
+  kill:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="5" r="1.6"/><path d="M5.5 13.2 6.4 8.2h3.2l.9 5M6.2 10.2h3.6"/></svg>',
+  bell:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 11.5h8l-.8-1.2V7.2a3.2 3.2 0 0 0-6.4 0v3.1zM7 13.2a1 1 0 0 0 2 0"/></svg>',
+  cpu:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="4" y="4" width="8" height="8" rx="1.2"/><path d="M6.5 2.5v1.5M9.5 2.5v1.5M6.5 12v1.5M9.5 12v1.5M2.5 6.5h1.5M2.5 9.5h1.5M12 6.5h1.5M12 9.5h1.5"/></svg>',
+  ram:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 5.5h10v6H3zM5 11.5v1.2M8 11.5v1.2M11 11.5v1.2M5 5.5V4.2M8 5.5V4.2M11 5.5V4.2"/></svg>',
+  disk:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2.5" y="4" width="11" height="8" rx="1.2"/><path d="M5 8.2h2.2"/><circle cx="11" cy="8.2" r="0.7" fill="currentColor"/></svg>',
+  net:
+    '<svg class="h-full w-full" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 3.2v9.6M5.4 5.6 8 3.2l2.6 2.4M5.4 10.4 8 12.8l2.6-2.4"/></svg>',
+};
+
+const groups = [
+  {
+    label: "Server",
+    items: [
+      { label: "Console", hint: "Live output & commands", icon: icon.terminal, active: true },
+      { label: "Analytics", hint: "CPU, RAM & disk charts", icon: icon.chart },
+      { label: "Activity", hint: "Audit log", icon: icon.activity },
+    ],
+  },
+  {
+    label: "Management",
+    items: [
+      { label: "Files", hint: "Browse & edit", icon: icon.files },
+      { label: "Backups", hint: "Snapshots", icon: icon.backups },
+      { label: "Databases", hint: "MySQL", icon: icon.db },
+      { label: "Schedules", hint: "Automation", icon: icon.schedule },
+      { label: "Marketplace", hint: "Scripts & resources", icon: icon.store },
+    ],
+  },
+  {
+    label: "Configuration",
+    items: [
+      { label: "Network", hint: "Ports & SFTP", icon: icon.network },
+      { label: "Startup", hint: "Command & variables", icon: icon.startup },
+      { label: "Settings", hint: "Details & reinstall", icon: icon.settings },
+    ],
+  },
+  {
+    label: "Access",
+    items: [{ label: "Subusers", hint: "Permissions", icon: icon.users }],
+  },
+];
+
+const g = "text-[#3ddc84]";
+const dim = "text-[#8b95a7]";
+const warn = "text-[#ff6b6b]";
+const amber = "text-[#f5c16c]";
+const link = "text-[#79b8ff] underline decoration-[#79b8ff]/40";
+
+const log = [
+  [{ t: "[script:cc-chat]", c: g }, { t: " =============", c: g }],
+  [{ t: "[script:cc-chat]", c: g }, { t: " CC Chat (cc-chat) is outdated!", c: warn }],
+  [{ t: "[script:cc-chat]", c: g }, { t: " Current version: (v1.4.2)", c: dim }],
+  [
+    { t: "[script:cc-chat]", c: g },
+    { t: " Latest version: (v1.4.1) ", c: g },
+    { t: "github.com/example/cc-chat/releases/tag/v1.4.1", c: link },
+  ],
+  [
+    { t: "[script:cc-chat]", c: g },
+    {
+      t: " There is a known issue with version checks. When the check fails, a specific error is shown instead of a generic one.",
+      c: dim,
+    },
+  ],
+  [{ t: "[script:cc-chat]", c: g }, { t: " =============", c: g }],
+  [{ t: "[resources]", c: amber }, { t: " Started map fivem-map-skater", c: dim }],
+  [{ t: "[resources]", c: amber }, { t: " Started resource fivem-map-starter", c: dim }],
+  [{ t: "[script:Badger_Discord]", c: "text-[#c4b5fd]" }, { t: " [Discord API] Script Working.", c: g }],
+  [{ t: "[script:Badger_Discord]", c: "text-[#c4b5fd]" }, { t: " [System] READY!", c: g }],
+  [{ t: "[script:spirit-notify]", c: g }, { t: " [Spirit Notify] Checking for updates…", c: dim }],
+  [{ t: "[script:spirit-duty]", c: g }, { t: " [Spirit Duty] Ready. 4 departments on file.", c: dim }],
+  [{ t: "[script:spirit-vehicle]", c: g }, { t: " [Spirit Garages] Ready. 2 owner(s) on file.", c: dim }],
+  [{ t: "[script:spirit-safes]", c: g }, { t: " [Spirit Safes] Checking for updates…", c: dim }],
+  [{ t: "[script:spirit-spawn]", c: g }, { t: " [Spirit Spawn] Checking for updates…", c: dim }],
+  [{ t: "[script:spirit-notify]", c: g }, { t: " [Spirit Notify] Update check finished. HTTP status: 0", c: amber }],
+  [{ t: "[script:Badger_Discord]", c: "text-[#c4b5fd]" }, { t: " Badger_Discord_API is up to date!", c: g }],
+  [{ t: "[script:DiscordAcePerms]", c: g }, { t: " DiscordAcePerms is up to date!", c: g }],
+  [{ t: "[script:spirit-safes]", c: g }, { t: " Update check failed. HTTP status: 0", c: warn }],
+  [{ t: "[script:spirit-spawn]", c: g }, { t: " Update check failed. HTTP status: 0", c: warn }],
+  [
+    { t: "[citizen-server]", c: amber },
+    { t: " Server list metadata is now managed in the server portal. Leave name, tags, and banner blank here if you set them there.", c: dim },
+  ],
+  [
+    { t: "[citizen-server]", c: amber },
+    { t: " Your server name, description, tags, and banner images are managed from the panel.", c: dim },
+  ],
+  [{ t: "[script:Badssentials]", c: g }, { t: " Badssentials is outdated. Current version: 3.2.1", c: warn }],
+  [{ t: "[script:Badssentials]", c: g }, { t: " Latest version: 3.8.0", c: g }],
+];
+---
+
+<section
+  class="overflow-hidden rounded-xl border border-white/10 bg-[#07090e] text-[11px] shadow-[0_24px_60px_-36px_rgba(0,0,0,0.85)]"
+  aria-label="Spirit Panel server console"
+>
+  <div class="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-white/10 px-3 py-2">
+    <div class="flex items-center gap-2 pr-2">
+      <img src="/logo.png" alt="" width="28" height="28" class="size-7 rounded-md" />
+      <div class="leading-tight">
+        <p class="font-display text-[13px] font-semibold tracking-tight text-white">Spirit Panel</p>
+        <p class="text-[8px] font-medium uppercase tracking-[0.16em] text-[#7d8798]">Game server hosting</p>
+      </div>
+    </div>
+    <p class="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/[0.03] px-2 py-1 text-[10px] text-[#c5ceda]">
+      <span class="size-3 text-[#8b95a7]" set:html={icon.files}></span>
+      My servers
+    </p>
+    <p class="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-[#10151e] px-2.5 py-1 font-mono text-[10px] text-[#d5dde8]">
+      <span class="size-1.5 rounded-full bg-[#3ddc84]" aria-hidden="true"></span>
+      play.example.com:30120
+    </p>
+    <p class="hidden text-[10px] font-medium uppercase tracking-wide text-[#f5c16c] sm:block">Ping <span class="text-[#f5c16c]">42 ms</span></p>
+    <p class="hidden text-[10px] uppercase tracking-wide text-[#8b95a7] sm:block">Uptime <span class="text-[#d5dde8]">19m</span></p>
+    <p class="hidden items-center gap-1 text-[10px] uppercase tracking-wide text-[#8b95a7] sm:inline-flex">
+      <span class="size-3" set:html={icon.users}></span>
+      Players <span class="text-[#d5dde8]">0</span>
+    </p>
+    <p class="ml-auto hidden items-center gap-1.5 text-[10px] text-[#c5ceda] sm:inline-flex">
+      <span class="inline-flex h-3 w-4 overflow-hidden rounded-[2px]" aria-hidden="true">
+        <span class="w-1/3 bg-[#3c3b6e]"></span>
+        <span class="w-2/3 bg-[#b22234]"></span>
+      </span>
+      US-NYC
+    </p>
+  </div>
+
+  <div class="grid h-[28rem] min-h-0 sm:h-[39rem] sm:grid-cols-[12.75rem_minmax(0,1fr)]">
+    <aside class="hidden h-full min-h-0 border-r border-white/10 bg-[#0b0e14] sm:flex sm:flex-col">
+      <nav class="min-h-0 flex-1 space-y-1.5 overflow-y-auto px-2 py-2">
+        {
+          groups.map((group) => (
+            <div>
+              <p class="px-2 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#667084]">{group.label}</p>
+              <ul class="mt-1 space-y-0.5">
+                {group.items.map((item) => (
+                  <li>
+                    <p
+                      class:list={[
+                        "flex items-start gap-2 rounded-lg px-2 py-0.5 leading-tight",
+                        item.active ? "bg-[#4f46e5] text-white" : "text-[#b7c0ce]",
+                      ]}
+                    >
+                      <span class="mt-0.5 size-3.5 shrink-0" set:html={item.icon} />
+                      <span>
+                        <span class="block text-[12px]">{item.label}</span>
+                        <span class:list={["block text-[9px]", item.active ? "text-white/70" : "text-[#7d8798]"]}>
+                          {item.hint}
+                        </span>
+                      </span>
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </nav>
+      <div class="mt-auto border-t border-white/10 px-2.5 py-2.5">
+        <p class="px-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-[#667084]">Power</p>
+        <div class="mt-2 grid grid-cols-2 gap-1.5">
+          <p class="inline-flex items-center justify-center gap-1 rounded-md border border-[#3ddc84]/50 py-1 text-[10px] text-[#3ddc84]">
+            <span class="size-3" set:html={icon.play}></span> Start
+          </p>
+          <p class="inline-flex items-center justify-center gap-1 rounded-md border border-white/10 py-1 text-[10px] text-[#c5ceda]">
+            <span class="size-3" set:html={icon.restart}></span> Restart
+          </p>
+          <p class="inline-flex items-center justify-center gap-1 rounded-md border border-[#f07178]/50 py-1 text-[10px] text-[#f07178]">
+            <span class="size-3" set:html={icon.stop}></span> Stop
+          </p>
+          <p class="inline-flex items-center justify-center gap-1 rounded-md border border-[#f07178]/40 bg-[#f07178]/15 py-1 text-[10px] text-[#ffb4b8]">
+            <span class="size-3" set:html={icon.kill}></span> Kill
+          </p>
+        </div>
+      </div>
+      <div class="flex items-center justify-between border-t border-white/10 px-3 py-2 text-[10px] text-[#8b95a7]">
+        <span>Theme</span>
+        <span class="relative h-4 w-7 rounded-full bg-[#4f46e5]" aria-hidden="true">
+          <span class="absolute right-0.5 top-0.5 size-3 rounded-full bg-white"></span>
+        </span>
+      </div>
+    </aside>
+
+    <div class="flex h-full min-h-0 min-w-0 flex-col gap-3 bg-[#090c12] p-3">
+      <div class="flex items-start gap-2.5 rounded-xl border border-white/10 bg-[#10151e] px-3 py-2.5">
+        <span class="mt-0.5 size-4 shrink-0 text-[#8b95a7]" set:html={icon.bell}></span>
+        <div class="min-w-0">
+          <p class="text-[12px] text-white">
+            <span class="mr-2 rounded bg-[#312e81] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wider text-[#c7d2fe]">Notice</span>
+            What are your thoughts on Spirit-Panel?
+          </p>
+          <p class="mt-1 text-[10px] leading-relaxed text-[#8b95a7]">
+            We're always working to improve Spirit Panel. Have feedback or suggestions? We'd love to hear from you.
+          </p>
+        </div>
+      </div>
+
+      <div class="flex min-h-0 flex-1 flex-col overflow-hidden rounded-xl border border-white/10 bg-[#07090c]">
+        <div class="flex flex-col gap-2 border-b border-white/10 px-3 py-2.5">
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0">
+              <p class="flex items-center gap-2 text-[12px] text-white">
+                <span class="size-3.5 shrink-0 text-[#3ddc84]" set:html={icon.terminal}></span>
+                <span class="truncate font-medium">Rogue Network Roleplay</span>
+                <span class="text-[#667084]">/</span>
+                <span class="shrink-0 text-[#8b95a7]">Console</span>
+                <span class="inline-flex shrink-0 items-center gap-1 rounded-full bg-[#3ddc84]/15 px-1.5 py-0.5 text-[10px] text-[#3ddc84]">
+                  <span class="size-1.5 rounded-full bg-[#3ddc84]"></span>
+                  Running
+                </span>
+              </p>
+              <p class="mt-0.5 pl-5 text-[10px] text-[#8b95a7]">Installation in progress</p>
+            </div>
+            <p class="shrink-0 rounded-md border border-white/15 px-2.5 py-1 text-[10px] text-[#d5dde8]">Reconnect</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[10px]">
+            <span class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap">
+              <span class="size-3 text-[#22d3ee]" set:html={icon.cpu}></span>
+              <span class="font-medium tracking-wide text-[#67e8f9]">CPU</span>
+              <span class="font-mono text-[#e0f7ff]">9.4%</span>
+            </span>
+            <span class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap">
+              <span class="size-3 text-[#22d3ee]" set:html={icon.ram}></span>
+              <span class="font-medium tracking-wide text-[#67e8f9]">RAM</span>
+              <span class="font-mono text-[#e0f7ff]">533.9 MB</span>
+            </span>
+            <span class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap">
+              <span class="size-3 text-[#22d3ee]" set:html={icon.disk}></span>
+              <span class="font-medium tracking-wide text-[#67e8f9]">DISK</span>
+              <span class="font-mono text-[#e0f7ff]">1.98 GB</span>
+            </span>
+            <span class="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap">
+              <span class="size-3 text-[#22d3ee]" set:html={icon.net}></span>
+              <span class="font-medium tracking-wide text-[#67e8f9]">NET</span>
+              <span class="font-mono text-[#86efac]">↓ 128.3 KB/s</span>
+              <span class="font-mono text-[#7dd3fc]">↑ 59.4 KB/s</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="min-h-0 flex-1 overflow-y-auto px-3 py-2 font-mono text-[11px] leading-[1.45]">
+          {
+            log.map((parts) => (
+              <p class="break-words">
+                {parts.map((part) => (
+                  <span class={part.c}>{part.t}</span>
+                ))}
+              </p>
+            ))
+          }
+        </div>
+
+        <div class="px-3 pb-3">
+          <p class="flex items-center gap-2 rounded-lg border border-white/10 bg-[#0c1018] px-3 py-2 font-mono text-[11px] text-[#667084]">
+            <span aria-hidden="true">›</span>
+            Commands unavailable during installation
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,101 @@
+---
+import Icon from "./Icon.astro";
+import { docsUrl, githubUrl, nav } from "../data/site";
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+function isCurrent(href: string) {
+  if (href === "/docs") return path === "/docs" || path.startsWith("/docs/");
+  return path === href;
+}
+
+const links = [
+  ...nav.filter((item) => item.href !== "/get-started"),
+  { href: docsUrl, label: "Docs" },
+];
+---
+
+<header class="sticky top-0 z-40 border-b border-white/10 bg-[#07090e]/80 backdrop-blur-xl">
+  <div
+    class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan/40 to-transparent"
+    aria-hidden="true"
+  >
+  </div>
+  <div class="relative mx-auto flex h-[4.25rem] max-w-6xl items-center justify-between gap-4 px-5">
+    <a
+      href="/"
+      class="group flex items-center gap-3 font-display text-sm font-semibold tracking-tight"
+    >
+      <img
+        src="/logo.png"
+        alt=""
+        width="36"
+        height="36"
+        class="size-9 rounded-[10px] shadow-[0_0_24px_-10px_rgba(34,211,238,0.75)] transition-transform group-hover:scale-[1.03]"
+      />
+      <span class="flex flex-col leading-none">
+        <span>Spirit Panel</span>
+        <span class="mt-1 text-[10px] font-medium uppercase tracking-[0.16em] text-faint">Self-hosted</span>
+      </span>
+    </a>
+
+    <button
+      type="button"
+      class="btn btn-ghost btn-sm md:!hidden"
+      aria-expanded="false"
+      aria-controls="site-nav"
+      data-nav-toggle
+    >
+      <Icon name="menu" />
+      <span data-nav-label>Menu</span>
+    </button>
+
+    <nav
+      id="site-nav"
+      data-open="false"
+      data-nav
+      class="absolute inset-x-0 top-[4.25rem] z-30 hidden flex-col gap-1 border-b border-white/10 bg-[#0c1018] px-5 py-4 shadow-[0_24px_48px_-28px_rgba(0,0,0,0.9)] data-[open=true]:flex md:static md:z-auto md:flex md:flex-row md:items-center md:gap-1 md:border-0 md:bg-transparent md:p-0 md:shadow-none"
+    >
+      {
+        links.map((item) => (
+          <a
+            href={item.href}
+            aria-current={!("external" in item && item.external) && isCurrent(item.href) ? "page" : undefined}
+            class:list={[
+              "rounded-full px-3.5 py-2 text-sm transition-colors",
+              !("external" in item && item.external) && isCurrent(item.href)
+                ? "bg-white/[0.06] text-ink"
+                : "text-muted hover:bg-white/[0.04] hover:text-ink",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <div class="mt-2 flex flex-col gap-2 border-t border-white/10 pt-3 md:mt-0 md:ml-2 md:flex-row md:items-center md:border-t-0 md:pt-0">
+        <a href={githubUrl} class="btn btn-secondary btn-sm">
+          <Icon name="github" />
+          GitHub
+        </a>
+        <a href="/get-started" class="btn btn-primary btn-sm">
+          Get started
+          <Icon name="arrow" />
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector("[data-nav-toggle]");
+  const nav = document.querySelector("[data-nav]");
+
+  toggle?.addEventListener("click", () => {
+    if (!(toggle instanceof HTMLButtonElement) || !(nav instanceof HTMLElement)) return;
+    const open = nav.getAttribute("data-open") !== "true";
+    nav.setAttribute("data-open", String(open));
+    toggle.setAttribute("aria-expanded", String(open));
+    const label = toggle.querySelector("[data-nav-label]");
+    if (label) label.textContent = open ? "Close" : "Menu";
+  });
+</script>

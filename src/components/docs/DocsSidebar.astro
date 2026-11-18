@@ -1,0 +1,93 @@
+---
+import Icon from "../Icon.astro";
+
+export interface DocsNavLink {
+  title: string;
+  href: string;
+  external?: boolean;
+}
+
+export interface DocsNavGroup {
+  id: string;
+  label: string;
+  links: DocsNavLink[];
+}
+
+interface Props {
+  groups: DocsNavGroup[];
+}
+
+const { groups } = Astro.props;
+const current = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<div class="px-4 py-4">
+  <label class="block">
+    <span class="sr-only">Filter pages</span>
+    <input
+      type="search"
+      placeholder="Filter pages"
+      data-docs-filter
+      class="w-full rounded-full border border-white/10 bg-[#0c1018] px-3.5 py-2 text-sm text-ink outline-none placeholder:text-faint focus:border-cyan/40"
+    />
+  </label>
+  <p class="mt-3 px-1 text-sm text-faint" data-docs-filter-empty hidden>No matching pages.</p>
+  <div class="mt-4 space-y-5">
+    {
+      groups.map((group) => (
+        <div data-docs-group>
+          <p class="px-2 text-[11px] font-medium uppercase tracking-[0.16em] text-faint">{group.label}</p>
+          <ul class="mt-1.5 space-y-0.5">
+            {group.links.map((link) => {
+              const active = !link.external && current === link.href;
+              return (
+                <li data-docs-link-item>
+                  <a
+                    href={link.href}
+                    data-docs-link
+                    aria-current={active ? "page" : undefined}
+                    {...(link.external ? { target: "_blank", rel: "noreferrer" } : {})}
+                    class:list={[
+                      "flex items-center justify-between gap-2 rounded-lg px-2 py-1.5 text-sm transition-colors",
+                      active ? "bg-white/[0.06] text-ink" : "text-muted hover:bg-white/[0.04] hover:text-ink",
+                    ]}
+                  >
+                    <span>{link.title}</span>
+                    {link.external && <Icon name="external" class="size-3.5 shrink-0 text-faint" />}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<script>
+  const filters = document.querySelectorAll("[data-docs-filter]");
+
+  filters.forEach((filter) => {
+    if (!(filter instanceof HTMLInputElement)) return;
+    const root = filter.closest("div");
+    if (!root) return;
+
+    filter.addEventListener("input", () => {
+      const query = filter.value.trim().toLowerCase();
+      let visible = 0;
+      root.querySelectorAll("[data-docs-group]").forEach((group) => {
+        let groupVisible = 0;
+        group.querySelectorAll("[data-docs-link-item]").forEach((item) => {
+          const text = item.textContent?.toLowerCase() ?? "";
+          const show = !query || text.includes(query);
+          item.toggleAttribute("hidden", !show);
+          if (show) groupVisible += 1;
+        });
+        group.toggleAttribute("hidden", groupVisible === 0);
+        visible += groupVisible;
+      });
+      root.querySelector("[data-docs-filter-empty]")?.toggleAttribute("hidden", visible !== 0);
+    });
+  });
+</script>

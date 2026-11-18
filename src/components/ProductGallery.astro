@@ -1,0 +1,198 @@
+---
+const shots = [
+  {
+    id: "dashboard",
+    label: "Dashboard",
+    title: "Client dashboard",
+    description: "Servers at a glance — status, resources, and quick open.",
+    src: "/gallery/dashboard.png",
+    alt: "Spirit Panel client dashboard showing servers and status",
+  },
+  {
+    id: "console",
+    label: "Console",
+    title: "Game server console",
+    description: "Live output, power controls, and resource meters on the server.",
+    src: "/gallery/console.png",
+    alt: "Spirit Panel game server console with live log output",
+  },
+  {
+    id: "files",
+    label: "Files",
+    title: "File manager",
+    description: "Browse, edit, and manage files on the server from the browser.",
+    src: "/gallery/files.png",
+    alt: "Spirit Panel file manager for a game server",
+  },
+  {
+    id: "admin",
+    label: "Admin",
+    title: "Admin home",
+    description: "Fleet overview — nodes, servers, and the controls that run the panel.",
+    src: "/gallery/admin.png",
+    alt: "Spirit Panel admin home with fleet overview",
+  },
+];
+---
+
+<section class="relative overflow-hidden border-t border-line" aria-label="Product gallery" data-gallery>
+  <div
+    class="pointer-events-none absolute inset-x-0 top-24 -z-10 mx-auto h-[28rem] max-w-5xl bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,0.12),transparent_68%)]"
+    aria-hidden="true"
+  >
+  </div>
+  <div class="mx-auto max-w-6xl px-5 py-16 lg:py-24">
+    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+      <div class="max-w-xl">
+        <p class="text-[11px] font-medium uppercase tracking-[0.16em] text-cyan">Product gallery</p>
+        <h2 class="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+          The panel in use.
+        </h2>
+        <p class="mt-4 text-base leading-relaxed text-muted">
+          Dashboard, console, files, and admin — the screens you live in after install.
+        </p>
+      </div>
+      <div
+        class="flex w-full gap-1 overflow-x-auto rounded-full border border-white/10 bg-[#0c1018] p-1 lg:w-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        role="tablist"
+        aria-label="Gallery views"
+      >
+        {
+          shots.map((shot, index) => (
+            <button
+              type="button"
+              role="tab"
+              id={`gallery-tab-${shot.id}`}
+              class="shrink-0 rounded-full px-3.5 py-1.5 text-sm text-muted transition-colors hover:text-ink aria-[selected=true]:bg-white/[0.08] aria-[selected=true]:text-ink"
+              data-gallery-tab
+              data-gallery-id={shot.id}
+              aria-selected={index === 0 ? "true" : "false"}
+              aria-controls={`gallery-panel-${shot.id}`}
+              tabindex={index === 0 ? 0 : -1}
+            >
+              {shot.label}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="relative mt-10">
+      <div class="rounded-[14px] bg-[linear-gradient(180deg,rgba(255,255,255,0.2),rgba(34,211,238,0.28)_10%,rgba(255,255,255,0.05)_40%,rgba(255,255,255,0.04))] p-px shadow-[0_28px_70px_-36px_rgba(0,0,0,0.85)]">
+        <div class="overflow-hidden rounded-[13px] bg-[#07090e]">
+          {
+            shots.map((shot, index) => (
+              <figure
+                class:list={["m-0", index === 0 ? "block" : "hidden"]}
+                id={`gallery-panel-${shot.id}`}
+                role="tabpanel"
+                aria-labelledby={`gallery-tab-${shot.id}`}
+                data-gallery-panel
+                data-gallery-id={shot.id}
+                hidden={index !== 0}
+              >
+                <div class="relative aspect-video bg-[#0c1018]">
+                  <img
+                    src={shot.src}
+                    alt={shot.alt}
+                    width="1920"
+                    height="1080"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                    class="absolute inset-0 size-full object-cover object-top"
+                    data-gallery-image
+                  />
+                  <div
+                    class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,0.08),transparent_62%)] px-6 text-center"
+                    data-gallery-placeholder
+                    hidden
+                  >
+                    <p class="font-display text-lg font-semibold tracking-tight text-ink">{shot.title}</p>
+                    <p class="max-w-sm text-sm text-muted">{shot.description}</p>
+                    <p class="mt-2 font-mono text-[11px] text-faint">{shot.src}</p>
+                  </div>
+                </div>
+                <figcaption class="flex flex-col gap-1 border-t border-white/10 px-5 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+                  <div class="flex min-w-0 items-baseline gap-3">
+                    <span class="font-display text-[11px] tabular-nums text-faint" aria-hidden="true">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <p class="font-display text-sm font-semibold tracking-tight sm:text-base">{shot.title}</p>
+                  </div>
+                  <p class="pl-7 text-sm leading-relaxed text-muted sm:max-w-md sm:pl-0 sm:text-right">
+                    {shot.description}
+                  </p>
+                </figcaption>
+              </figure>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-gallery]").forEach((root) => {
+    if (!(root instanceof HTMLElement)) return;
+
+    const tabs = [...root.querySelectorAll("[data-gallery-tab]")];
+    const panels = [...root.querySelectorAll("[data-gallery-panel]")];
+
+    const show = (id) => {
+      tabs.forEach((tab) => {
+        if (!(tab instanceof HTMLButtonElement)) return;
+        const active = tab.dataset.galleryId === id;
+        tab.setAttribute("aria-selected", String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+      panels.forEach((panel) => {
+        if (!(panel instanceof HTMLElement)) return;
+        const active = panel.dataset.galleryId === id;
+        panel.classList.toggle("hidden", !active);
+        panel.classList.toggle("block", active);
+        panel.toggleAttribute("hidden", !active);
+      });
+    };
+
+    tabs.forEach((tab, index) => {
+      tab.addEventListener("click", () => {
+        if (!(tab instanceof HTMLButtonElement)) return;
+        const id = tab.dataset.galleryId;
+        if (id) show(id);
+      });
+      tab.addEventListener("keydown", (event) => {
+        if (!(event instanceof KeyboardEvent)) return;
+        if (event.key !== "ArrowRight" && event.key !== "ArrowLeft" && event.key !== "Home" && event.key !== "End") {
+          return;
+        }
+        event.preventDefault();
+        let next = index;
+        if (event.key === "ArrowRight") next = (index + 1) % tabs.length;
+        if (event.key === "ArrowLeft") next = (index - 1 + tabs.length) % tabs.length;
+        if (event.key === "Home") next = 0;
+        if (event.key === "End") next = tabs.length - 1;
+        const nextTab = tabs[next];
+        if (!(nextTab instanceof HTMLButtonElement)) return;
+        const id = nextTab.dataset.galleryId;
+        if (!id) return;
+        show(id);
+        nextTab.focus();
+      });
+    });
+
+    root.querySelectorAll("[data-gallery-image]").forEach((img) => {
+      if (!(img instanceof HTMLImageElement)) return;
+      const placeholder = img.parentElement?.querySelector("[data-gallery-placeholder]");
+      const revealPlaceholder = () => {
+        img.hidden = true;
+        if (placeholder instanceof HTMLElement) placeholder.hidden = false;
+      };
+      if (img.complete) {
+        if (img.naturalWidth === 0) revealPlaceholder();
+      } else {
+        img.addEventListener("error", revealPlaceholder, { once: true });
+      }
+    });
+  });
+</script>
