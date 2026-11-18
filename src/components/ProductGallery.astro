@@ -155,7 +155,15 @@ const shots = [
                     data-gallery-id={shot.id}
                     hidden={index !== 0}
                   >
-                    <div class="relative aspect-video bg-[#0c1018]">
+                    <button
+                      type="button"
+                      class="group relative block aspect-video w-full cursor-zoom-in bg-[#0c1018] text-left"
+                      data-gallery-open
+                      data-gallery-src={shot.src}
+                      data-gallery-alt={shot.alt}
+                      data-gallery-title={shot.title}
+                      aria-label={`Open ${shot.title} full size`}
+                    >
                       <img
                         src={shot.src}
                         alt={shot.alt}
@@ -163,9 +171,12 @@ const shots = [
                         height="1080"
                         loading={index === 0 ? "eager" : "lazy"}
                         decoding="async"
-                        class="absolute inset-0 size-full object-cover object-top"
+                        class="absolute inset-0 size-full object-cover object-top transition duration-300 group-hover:brightness-110"
                         data-gallery-image
                       />
+                      <span class="pointer-events-none absolute bottom-3 right-3 rounded-lg border border-white/10 bg-[#07090e]/90 px-2.5 py-1.5 font-mono text-[11px] text-muted opacity-0 shadow-lg backdrop-blur-sm transition group-hover:opacity-100 group-focus-visible:opacity-100">
+                        Click to enlarge
+                      </span>
                       <div
                         class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,0.08),transparent_62%)] px-6 text-center"
                         data-gallery-placeholder
@@ -175,7 +186,7 @@ const shots = [
                         <p class="max-w-sm text-sm text-muted">{shot.description}</p>
                         <p class="mt-2 font-mono text-[11px] text-faint">{shot.src}</p>
                       </div>
-                    </div>
+                    </button>
                     <figcaption class="flex flex-col gap-1 border-t border-white/10 px-5 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
                       <p class="font-display text-sm font-semibold tracking-tight sm:text-base">{shot.title}</p>
                       <p class="text-sm leading-relaxed text-muted sm:max-w-md sm:text-right">{shot.description}</p>
@@ -188,6 +199,34 @@ const shots = [
       </div>
     </div>
   </div>
+
+  <dialog
+    class="gallery-lightbox m-0 h-full max-h-none w-full max-w-none border-0 bg-transparent p-0 text-ink backdrop:bg-[#07090e]/88 backdrop:backdrop-blur-sm open:flex open:items-center open:justify-center"
+    data-gallery-lightbox
+    aria-label="Screenshot preview"
+  >
+    <div class="relative flex max-h-[100svh] w-full max-w-7xl flex-col px-4 py-6 sm:px-6 sm:py-8">
+      <div class="mb-3 flex items-center justify-between gap-4">
+        <p class="min-w-0 truncate font-display text-sm font-semibold tracking-tight sm:text-base" data-gallery-lightbox-title></p>
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm shrink-0"
+          data-gallery-lightbox-close
+        >
+          Close
+        </button>
+      </div>
+      <div class="min-h-0 flex-1 overflow-auto rounded-[14px] border border-white/10 bg-[#07090e] shadow-[0_40px_100px_-40px_rgba(0,0,0,0.95)]">
+        <img
+          src=""
+          alt=""
+          class="block h-auto w-full"
+          data-gallery-lightbox-image
+        />
+      </div>
+      <p class="mt-3 text-center text-xs text-faint">Esc or click outside to close</p>
+    </div>
+  </dialog>
 </section>
 
 <script>
@@ -197,6 +236,10 @@ const shots = [
     const tabs = [...root.querySelectorAll("[data-gallery-tab]")];
     const panels = [...root.querySelectorAll("[data-gallery-panel]")];
     const urlEl = root.querySelector("[data-gallery-url]");
+    const lightbox = root.querySelector("[data-gallery-lightbox]");
+    const lightboxImage = root.querySelector("[data-gallery-lightbox-image]");
+    const lightboxTitle = root.querySelector("[data-gallery-lightbox-title]");
+    const lightboxClose = root.querySelector("[data-gallery-lightbox-close]");
 
     const show = (id) => {
       tabs.forEach((tab) => {
@@ -265,5 +308,49 @@ const shots = [
         img.addEventListener("error", revealPlaceholder, { once: true });
       }
     });
+
+    const openLightbox = (src, alt, title) => {
+      if (!(lightbox instanceof HTMLDialogElement)) return;
+      if (!(lightboxImage instanceof HTMLImageElement)) return;
+      lightboxImage.src = src;
+      lightboxImage.alt = alt;
+      if (lightboxTitle instanceof HTMLElement) lightboxTitle.textContent = title;
+      lightbox.showModal();
+      document.documentElement.style.overflow = "hidden";
+    };
+
+    const closeLightbox = () => {
+      if (!(lightbox instanceof HTMLDialogElement)) return;
+      lightbox.close();
+      document.documentElement.style.overflow = "";
+    };
+
+    root.querySelectorAll("[data-gallery-open]").forEach((trigger) => {
+      trigger.addEventListener("click", () => {
+        if (!(trigger instanceof HTMLElement)) return;
+        const src = trigger.dataset.gallerySrc;
+        const alt = trigger.dataset.galleryAlt || "";
+        const title = trigger.dataset.galleryTitle || "";
+        if (!src) return;
+        openLightbox(src, alt, title);
+      });
+    });
+
+    if (lightboxClose instanceof HTMLElement) {
+      lightboxClose.addEventListener("click", closeLightbox);
+    }
+
+    if (lightbox instanceof HTMLDialogElement) {
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) closeLightbox();
+      });
+      lightbox.addEventListener("close", () => {
+        document.documentElement.style.overflow = "";
+        if (lightboxImage instanceof HTMLImageElement) {
+          lightboxImage.removeAttribute("src");
+          lightboxImage.alt = "";
+        }
+      });
+    }
   });
 </script>
