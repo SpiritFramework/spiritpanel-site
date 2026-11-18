@@ -110,8 +110,13 @@ const pillars = [
 
   <ProductGallery />
 
-  <section class="section-rise border-y border-line bg-[#090c12]" aria-label="Nests and eggs">
-    <div class="mx-auto max-w-6xl px-5 py-14 lg:py-16">
+  <section class="section-rise relative overflow-hidden border-y border-line bg-[#090c12]" aria-label="Nests and eggs">
+    <div
+      class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_70%_45%_at_50%_0%,rgba(34,211,238,0.1),transparent_55%)]"
+      aria-hidden="true"
+    >
+    </div>
+    <div class="relative mx-auto max-w-6xl px-5 py-14 lg:py-20">
       <div class="max-w-2xl">
         <p class="text-[11px] font-medium uppercase tracking-[0.16em] text-cyan">Nests and eggs</p>
         <h2 class="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
@@ -121,63 +126,79 @@ const pillars = [
           Bring the egg JSON you already use. A nest is the category. The egg is the template FeatherWings uses to start the server.
         </p>
       </div>
-      <div class="mt-10 rounded-[14px] bg-[linear-gradient(180deg,rgba(255,255,255,0.14),rgba(34,211,238,0.22)_14%,rgba(255,255,255,0.04))] p-px">
-        <div class="rounded-[13px] bg-[#07090e]">
-          <div class="grid items-center gap-3 p-3 sm:p-4 lg:grid-cols-[minmax(0,0.9fr)_auto_minmax(0,1.15fr)_auto_minmax(0,0.9fr)] lg:gap-4 lg:p-5">
-            <article class="rounded-xl border border-white/10 bg-[#0c1018] p-5">
-              <p class="text-[11px] font-medium uppercase tracking-[0.16em] text-faint">01 · Nest</p>
-              <h3 class="mt-3 font-display text-lg font-semibold tracking-tight">A category you name</h3>
-              <ul class="mt-4 space-y-2 text-sm text-muted">
-                <li class="flex items-center gap-2"><span class="size-1 shrink-0 rounded-full bg-white/30" aria-hidden="true"></span>Related eggs, one place</li>
-                <li class="flex items-center gap-2"><span class="size-1 shrink-0 rounded-full bg-white/30" aria-hidden="true"></span>A name you choose</li>
-                <li class="flex items-center gap-2"><span class="size-1 shrink-0 rounded-full bg-white/30" aria-hidden="true"></span>As many eggs as you need</li>
-              </ul>
-            </article>
-            <div class="flex items-center justify-center" aria-hidden="true">
-              <span class="flex size-7 items-center justify-center rounded-full border border-cyan/30 bg-[#07090e] text-cyan">
-                <svg viewBox="0 0 16 16" class="size-3.5 rotate-90 lg:rotate-0" fill="none" stroke="currentColor" stroke-width="1.6">
-                  <path d="M3 8h10M9 4l4 4-4 4"></path>
-                </svg>
-              </span>
-            </div>
-            <article class="rounded-xl border border-cyan/30 bg-[#0c1018] p-5 shadow-[0_0_40px_-30px_rgba(34,211,238,0.85)]">
-              <div class="flex items-center justify-between gap-3">
-                <p class="text-[11px] font-medium uppercase tracking-[0.16em] text-cyan">02 · Egg</p>
-                <span class="rounded-full border border-cyan/30 bg-cyan/10 px-2 py-0.5 font-mono text-[10px] leading-none text-cyan">PTDL_v2</span>
-              </div>
-              <p class="mt-3 font-mono text-[13px] text-ink">egg-export.json</p>
-              <ul class="mt-3 space-y-1.5 font-mono text-[12px] text-ink">
-                <li class="flex items-center gap-2 rounded-md bg-white/[0.03] px-2.5 py-1.5"><span class="size-1 shrink-0 rounded-full bg-cyan" aria-hidden="true"></span>docker_images</li>
-                <li class="flex items-center gap-2 rounded-md bg-white/[0.03] px-2.5 py-1.5"><span class="size-1 shrink-0 rounded-full bg-cyan" aria-hidden="true"></span>startup</li>
-                <li class="flex items-center gap-2 rounded-md bg-white/[0.03] px-2.5 py-1.5"><span class="size-1 shrink-0 rounded-full bg-cyan" aria-hidden="true"></span>variables</li>
-                <li class="flex items-center gap-2 rounded-md bg-white/[0.03] px-2.5 py-1.5"><span class="size-1 shrink-0 rounded-full bg-cyan" aria-hidden="true"></span>installation</li>
-              </ul>
-              <p class="mt-3 text-xs leading-relaxed text-muted">A newer import refreshes the template and keeps the servers already on it.</p>
-            </article>
-            <div class="flex items-center justify-center" aria-hidden="true">
-              <span class="flex size-7 items-center justify-center rounded-full border border-cyan/30 bg-[#07090e] text-cyan">
-                <svg viewBox="0 0 16 16" class="size-3.5 rotate-90 lg:rotate-0" fill="none" stroke="currentColor" stroke-width="1.6">
-                  <path d="M3 8h10M9 4l4 4-4 4"></path>
-                </svg>
-              </span>
-            </div>
-            <article class="rounded-xl border border-white/10 bg-[#0c1018] p-5">
-              <p class="text-[11px] font-medium uppercase tracking-[0.16em] text-faint">03 · Server</p>
-              <h3 class="mt-3 font-display text-lg font-semibold tracking-tight">Docker on FeatherWings</h3>
-              <ul class="mt-4 space-y-2 text-sm text-muted">
-                <li class="flex items-center gap-2"><span class="size-1 shrink-0 rounded-full bg-white/30" aria-hidden="true"></span>Console</li>
-                <li class="flex items-center gap-2"><span class="size-1 shrink-0 rounded-full bg-white/30" aria-hidden="true"></span>Files</li>
-                <li class="flex items-center gap-2"><span class="size-1 shrink-0 rounded-full bg-white/30" aria-hidden="true"></span>Backups</li>
-                <li class="flex items-center gap-2"><span class="size-1 shrink-0 rounded-full bg-white/30" aria-hidden="true"></span>Schedules</li>
-              </ul>
-              <p class="mt-4 text-xs leading-relaxed text-faint">The panel never runs the game itself.</p>
-            </article>
+
+      <ol class="mt-10 grid gap-4 lg:grid-cols-3 lg:gap-0">
+        <li class="relative flex flex-col border-t border-white/10 pt-6 lg:border-t-0 lg:border-l lg:border-white/10 lg:pl-6 lg:first:border-l-0 lg:first:pl-0">
+          <div class="flex items-center gap-3">
+            <span class="font-display text-sm tabular-nums text-cyan">01</span>
+            <span class="h-px flex-1 bg-white/10" aria-hidden="true"></span>
+            <span class="text-[11px] font-medium uppercase tracking-[0.16em] text-muted">Nest</span>
           </div>
-          <p class="border-t border-white/10 px-5 py-3.5 text-sm text-muted">
-            Minecraft plugins from Modrinth and the FiveM marketplace ship with the panel. Other games come from the eggs you import.
+          <h3 class="mt-5 font-display text-xl font-semibold tracking-tight">A category you name</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">
+            Related eggs live together under a label you choose. Add as many eggs as you need.
           </p>
-        </div>
-      </div>
+          <div class="mt-6 flex flex-1 flex-col justify-end gap-2">
+            <div class="rounded-xl border border-white/10 bg-[#07090e] px-4 py-3">
+              <p class="font-mono text-[11px] text-faint">example nests</p>
+              <ul class="mt-2 space-y-1.5 text-sm text-ink">
+                <li class="flex items-center gap-2"><span class="size-1.5 rounded-full bg-cyan/70" aria-hidden="true"></span>Minecraft</li>
+                <li class="flex items-center gap-2"><span class="size-1.5 rounded-full bg-cyan/70" aria-hidden="true"></span>Source Engine</li>
+                <li class="flex items-center gap-2"><span class="size-1.5 rounded-full bg-cyan/70" aria-hidden="true"></span>FiveM</li>
+              </ul>
+            </div>
+          </div>
+        </li>
+
+        <li class="relative flex flex-col border-t border-white/10 pt-6 lg:border-t-0 lg:border-l lg:border-white/10 lg:pl-6">
+          <div class="flex items-center gap-3">
+            <span class="font-display text-sm tabular-nums text-cyan">02</span>
+            <span class="h-px flex-1 bg-white/10" aria-hidden="true"></span>
+            <span class="text-[11px] font-medium uppercase tracking-[0.16em] text-muted">Egg</span>
+          </div>
+          <h3 class="mt-5 font-display text-xl font-semibold tracking-tight">The start template</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">
+            Import Pterodactyl egg JSON. A newer import refreshes the template and keeps servers already on it.
+          </p>
+          <div class="mt-6 overflow-hidden rounded-xl border border-cyan/25 bg-[#07090e]">
+            <div class="flex items-center justify-between gap-3 border-b border-white/10 px-4 py-2.5">
+              <p class="truncate font-mono text-[12px] text-ink">egg-export.json</p>
+              <span class="shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-cyan">PTDL_v2</span>
+            </div>
+            <ul class="divide-y divide-white/10 font-mono text-[12px] text-muted">
+              <li class="px-4 py-2.5 text-ink">docker_images</li>
+              <li class="px-4 py-2.5 text-ink">startup</li>
+              <li class="px-4 py-2.5 text-ink">variables</li>
+              <li class="px-4 py-2.5 text-ink">installation</li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="relative flex flex-col border-t border-white/10 pt-6 lg:border-t-0 lg:border-l lg:border-white/10 lg:pl-6">
+          <div class="flex items-center gap-3">
+            <span class="font-display text-sm tabular-nums text-cyan">03</span>
+            <span class="h-px flex-1 bg-white/10" aria-hidden="true"></span>
+            <span class="text-[11px] font-medium uppercase tracking-[0.16em] text-muted">Server</span>
+          </div>
+          <h3 class="mt-5 font-display text-xl font-semibold tracking-tight">Docker on FeatherWings</h3>
+          <p class="mt-2 text-sm leading-relaxed text-muted">
+            The panel never runs the game itself. FeatherWings starts each server in its own container.
+          </p>
+          <div class="mt-6 grid grid-cols-2 gap-2">
+            {
+              ["Console", "Files", "Backups", "Schedules"].map((item) => (
+                <div class="rounded-xl border border-white/10 bg-[#07090e] px-3 py-3 text-sm text-ink">
+                  {item}
+                </div>
+              ))
+            }
+          </div>
+        </li>
+      </ol>
+
+      <p class="mt-8 max-w-3xl border-t border-white/10 pt-6 text-sm leading-relaxed text-muted">
+        Minecraft plugins from Modrinth and the FiveM marketplace ship with the panel. Other games come from the eggs you import.
+      </p>
     </div>
   </section>
 
