@@ -35,7 +35,7 @@ const shots = [
 ];
 ---
 
-<section class="relative overflow-hidden border-t border-line" aria-label="Product gallery" data-gallery>
+<section class="section-rise relative overflow-hidden border-t border-line" aria-label="Product gallery" data-gallery>
   <div
     class="pointer-events-none absolute inset-x-0 top-24 -z-10 mx-auto h-[28rem] max-w-5xl bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,0.12),transparent_68%)]"
     aria-hidden="true"
@@ -83,7 +83,7 @@ const shots = [
           {
             shots.map((shot, index) => (
               <figure
-                class:list={["m-0", index === 0 ? "block" : "hidden"]}
+                class:list={["gallery-panel m-0", index === 0 ? "gallery-in block" : "hidden"]}
                 id={`gallery-panel-${shot.id}`}
                 role="tabpanel"
                 aria-labelledby={`gallery-tab-${shot.id}`}
@@ -152,6 +152,11 @@ const shots = [
         panel.classList.toggle("hidden", !active);
         panel.classList.toggle("block", active);
         panel.toggleAttribute("hidden", !active);
+        panel.classList.remove("gallery-in");
+        if (active) {
+          void panel.offsetWidth;
+          panel.classList.add("gallery-in");
+        }
       });
     };
 

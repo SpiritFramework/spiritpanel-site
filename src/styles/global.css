@@ -23,6 +23,7 @@
 html {
   scroll-behavior: smooth;
   color-scheme: dark;
+  overflow-x: clip;
 }
 
 body {
@@ -371,4 +372,46 @@ h3,
 .docs-prose th {
   color: var(--color-ink);
   font-weight: 600;
+}
+
+.hero-shot {
+  animation: rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.gallery-panel.gallery-in {
+  animation: gallery-in 0.35s ease both;
+}
+
+.section-rise {
+  animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 28%;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes gallery-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-shot,
+  .gallery-panel.gallery-in,
+  .section-rise {
+    animation: none;
+  }
 }
