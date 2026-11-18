@@ -51,20 +51,20 @@ const shots = [
   >
   </div>
 
-  <div class="relative mx-auto max-w-6xl px-5 py-16 lg:py-24">
+  <div class="relative mx-auto max-w-6xl px-5 py-14 lg:py-20">
     <div class="max-w-2xl">
-      <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-cyan">Product gallery</p>
-      <h2 class="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-5xl">
+      <p class="text-[11px] font-medium uppercase tracking-[0.16em] text-cyan">Product gallery</p>
+      <h2 class="mt-3 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
         The panel in use.
       </h2>
-      <p class="mt-4 text-base leading-relaxed text-muted">
+      <p class="mt-3 text-base leading-relaxed text-muted">
         Four screens from a live install — dashboard, console, files, and admin.
       </p>
     </div>
 
-    <div class="mt-10 flex gap-1 overflow-x-auto pb-1 lg:hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div class="mt-8 flex gap-1 overflow-x-auto pb-1 lg:hidden [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <div
-        class="flex min-w-full gap-1 rounded-2xl border border-white/10 bg-[#07090e]/80 p-1"
+        class="flex min-w-full gap-1 rounded-xl border border-white/10 bg-[#07090e] p-1"
         role="tablist"
         aria-label="Gallery views"
         data-gallery-tabs-mobile
@@ -75,7 +75,7 @@ const shots = [
               type="button"
               role="tab"
               id={`gallery-tab-m-${shot.id}`}
-              class="min-w-0 flex-1 rounded-xl px-3 py-2.5 text-center text-sm text-muted transition-colors hover:text-ink aria-[selected=true]:bg-white/[0.08] aria-[selected=true]:text-ink aria-[selected=true]:shadow-[inset_0_0_0_1px_rgba(34,211,238,0.35)]"
+              class="min-w-0 flex-1 rounded-lg px-3 py-2 text-center text-sm text-muted transition-colors hover:text-ink aria-[selected=true]:bg-white/[0.08] aria-[selected=true]:text-ink"
               data-gallery-tab
               data-gallery-id={shot.id}
               aria-selected={index === 0 ? "true" : "false"}
@@ -89,9 +89,9 @@ const shots = [
       </div>
     </div>
 
-    <div class="mt-8 grid gap-6 lg:mt-12 lg:grid-cols-[15.5rem_minmax(0,1fr)] lg:gap-8">
+    <div class="mt-8 grid items-start gap-8 lg:mt-10 lg:grid-cols-[13.5rem_minmax(0,1fr)] lg:gap-10">
       <div
-        class="hidden lg:flex lg:flex-col lg:gap-1"
+        class="hidden lg:flex lg:flex-col lg:gap-0.5"
         role="tablist"
         aria-label="Gallery views"
         data-gallery-tabs-desktop
@@ -102,23 +102,23 @@ const shots = [
               type="button"
               role="tab"
               id={`gallery-tab-${shot.id}`}
-              class="rounded-2xl border border-transparent px-4 py-3.5 text-left transition-colors hover:border-white/10 hover:bg-white/[0.03] aria-[selected=true]:border-cyan/25 aria-[selected=true]:bg-[linear-gradient(135deg,rgba(34,211,238,0.1),rgba(99,102,241,0.08))] [&[aria-selected=true]_.gallery-num]:text-cyan [&[aria-selected=true]_.gallery-label]:text-ink [&[aria-selected=true]_.gallery-sub]:text-muted"
+              class="rounded-xl px-3 py-3 text-left transition-colors hover:bg-white/[0.03] aria-[selected=true]:bg-white/[0.05] [&[aria-selected=true]_.gallery-num]:text-cyan [&[aria-selected=true]_.gallery-label]:text-ink [&[aria-selected=true]_.gallery-sub]:text-muted"
               data-gallery-tab
               data-gallery-id={shot.id}
               aria-selected={index === 0 ? "true" : "false"}
               aria-controls={`gallery-panel-${shot.id}`}
               tabindex={index === 0 ? 0 : -1}
             >
-              <span class="flex items-baseline justify-between gap-3">
-                <span class="gallery-num font-display text-[11px] tabular-nums text-faint">
+              <span class="grid grid-cols-[1.75rem_minmax(0,1fr)] items-baseline gap-x-2">
+                <span class="gallery-num font-display text-[11px] tabular-nums text-muted">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <span class="gallery-label font-display text-sm font-semibold tracking-tight text-muted">
                   {shot.label}
                 </span>
-              </span>
-              <span class="gallery-sub mt-1.5 block text-sm leading-snug text-faint">
-                {shot.title}
+                <span class="gallery-sub col-start-2 mt-0.5 text-[13px] leading-snug text-muted/80">
+                  {shot.title}
+                </span>
               </span>
             </button>
           ))
@@ -127,25 +127,21 @@ const shots = [
 
       <div class="relative min-w-0">
         <div
-          class="pointer-events-none absolute -inset-x-6 -inset-y-8 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,0.16),transparent_62%)]"
+          class="pointer-events-none absolute -inset-4 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(34,211,238,0.1),transparent_70%)]"
           aria-hidden="true"
         >
         </div>
-        <div class="rounded-[18px] bg-[linear-gradient(160deg,rgba(255,255,255,0.28),rgba(34,211,238,0.4)_12%,rgba(99,102,241,0.22)_38%,rgba(255,255,255,0.06)_70%)] p-px shadow-[0_40px_100px_-40px_rgba(34,211,238,0.55)]">
-          <div class="overflow-hidden rounded-[17px] bg-[#07090e]">
-            <div class="flex items-center gap-3 border-b border-white/10 bg-[#0c1018] px-4 py-3">
-              <div class="flex gap-1.5" aria-hidden="true">
-                <span class="size-2.5 rounded-full bg-[#ff5f57]"></span>
-                <span class="size-2.5 rounded-full bg-[#febc2e]"></span>
-                <span class="size-2.5 rounded-full bg-[#28c840]"></span>
-              </div>
-              <div class="min-w-0 flex-1 truncate rounded-full border border-white/10 bg-[#07090e] px-3 py-1 font-mono text-[11px] text-faint">
-                panel.your-domain · <span data-gallery-url>dashboard</span>
-              </div>
-              <p class="hidden font-mono text-[11px] tabular-nums text-faint sm:block" data-gallery-count>
-                01 / 04
-              </p>
+        <div class="overflow-hidden rounded-[14px] border border-white/10 bg-[#07090e] shadow-[0_28px_70px_-40px_rgba(0,0,0,0.9)]">
+          <div class="flex items-center gap-3 border-b border-white/10 bg-[#0c1018] px-4 py-2.5">
+            <div class="flex gap-1.5" aria-hidden="true">
+              <span class="size-2 rounded-full bg-white/20"></span>
+              <span class="size-2 rounded-full bg-white/20"></span>
+              <span class="size-2 rounded-full bg-white/20"></span>
             </div>
+            <div class="min-w-0 flex-1 truncate rounded-md border border-white/10 bg-[#07090e] px-3 py-1 font-mono text-[11px] text-faint">
+              panel.your-domain · <span data-gallery-url>dashboard</span>
+            </div>
+          </div>
 
             <div class="relative">
               {
@@ -179,28 +175,15 @@ const shots = [
                         <p class="max-w-sm text-sm text-muted">{shot.description}</p>
                         <p class="mt-2 font-mono text-[11px] text-faint">{shot.src}</p>
                       </div>
-                      <div
-                        class="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#07090e] via-[#07090e]/70 to-transparent"
-                        aria-hidden="true"
-                      >
-                      </div>
                     </div>
-                    <figcaption class="flex flex-col gap-2 border-t border-white/10 px-5 py-4 sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:px-6 sm:py-5">
-                      <div class="min-w-0">
-                        <p class="font-mono text-[11px] uppercase tracking-[0.18em] text-cyan">
-                          {String(index + 1).padStart(2, "0")} · {shot.label}
-                        </p>
-                        <p class="mt-1.5 font-display text-lg font-semibold tracking-tight">{shot.title}</p>
-                      </div>
-                      <p class="max-w-md text-sm leading-relaxed text-muted sm:text-right">
-                        {shot.description}
-                      </p>
+                    <figcaption class="flex flex-col gap-1 border-t border-white/10 px-5 py-4 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+                      <p class="font-display text-sm font-semibold tracking-tight sm:text-base">{shot.title}</p>
+                      <p class="text-sm leading-relaxed text-muted sm:max-w-md sm:text-right">{shot.description}</p>
                     </figcaption>
                   </figure>
                 ))
               }
             </div>
-          </div>
         </div>
       </div>
     </div>
@@ -214,11 +197,8 @@ const shots = [
     const tabs = [...root.querySelectorAll("[data-gallery-tab]")];
     const panels = [...root.querySelectorAll("[data-gallery-panel]")];
     const urlEl = root.querySelector("[data-gallery-url]");
-    const countEl = root.querySelector("[data-gallery-count]");
-    const ids = [...new Set(tabs.map((tab) => (tab instanceof HTMLElement ? tab.dataset.galleryId : null)).filter(Boolean))];
 
     const show = (id) => {
-      const index = ids.indexOf(id);
       tabs.forEach((tab) => {
         if (!(tab instanceof HTMLButtonElement)) return;
         const active = tab.dataset.galleryId === id;
@@ -238,9 +218,6 @@ const shots = [
         }
       });
       if (urlEl instanceof HTMLElement) urlEl.textContent = id;
-      if (countEl instanceof HTMLElement && index >= 0) {
-        countEl.textContent = `${String(index + 1).padStart(2, "0")} / ${String(ids.length).padStart(2, "0")}`;
-      }
     };
 
     tabs.forEach((tab) => {
