@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "deploy": "astro build && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.14",
@@ -14,7 +15,8 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.5",
-    "tailwindcss": "^4.3.5"
+    "tailwindcss": "^4.3.5",
+    "wrangler": "^4.164.0"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
